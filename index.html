@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Hola Vue</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+        <a class="navbar-brand" href="#">
+                hola0048
+            </a>
+    </nav>
+    <div class="container pt-4">
+        <div id='app'>
+            <div class="row">
+                <div class="col col-lg-7">
+                    <img v-bind:src="img" class="card" width="90%" />
+                    <!--atributo-->
+                </div>
+                <div class="col col-lg-5">
+                    <h1><b>{{ product }}</b></h1>
+                    <!--contenido-->
+                    <h2>{{ description }}</h2>
+                    <div>
+                        <b><span> {{ stock }} </span>
+                        <span v-if='stock > 10'>En stock</span>
+                        <span style="color: #dc3545;" v-else-if='stock <= 10 && stock > 0'>¡Pocas unidades!</span>
+                        <span style="color: #797878;" v-else>Agotadas</span>
+                        </b>
+                    </div>
+                    <hr>
+                    <h4>Características:</h4>
+                    <ul>
+                        <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
+                    </ul>
+                    <a :href="lnk">Ver Detalle</a>
+                    <div class="d-flex mt-2"><b>Tipo de Longaniza:</b>
+                        <div class="mr-3 ml-3" v-for='variant in variants' :key="variant.id">
+                            <p v-on:mouseover='updateProduct(variant)'>{{ variant.type }}</p>
+                        </div>
+                    </div>
+                    <p><b>En carrito:</b> {{cart}}</p>
+                    <button class="btn btn-danger" @click='addtoCart' :disabled='!inStock'>Agregar al carro</button>
+                    <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
