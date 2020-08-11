@@ -9,45 +9,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-danger">
-        <a class="navbar-brand" href="#">
-                hola0048
-            </a>
-    </nav>
-    <div class="container pt-4">
-        <div id='app'>
-            <div class="row">
-                <div class="col col-lg-7">
-                    <img v-bind:src="img" class="card" width="90%" />
-                    <!--atributo-->
-                </div>
-                <div class="col col-lg-5">
-                    <h1><b>{{ product }}</b></h1>
-                    <!--contenido-->
-                    <h2>{{ description }}</h2>
-                    <div>
-                        <b><span> {{ stock }} </span>
-                        <span v-if='stock > 10'>En stock</span>
-                        <span style="color: #dc3545;" v-else-if='stock <= 10 && stock > 0'>¡Pocas unidades!</span>
-                        <span style="color: #797878;" v-else>Agotadas</span>
-                        </b>
-                    </div>
-                    <hr>
-                    <h4>Características:</h4>
-                    <ul>
-                        <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
-                    </ul>
-                    <a :href="lnk">Ver Detalle</a>
-                    <div class="d-flex mt-2"><b>Tipo de Longaniza:</b>
-                        <div class="mr-3 ml-3" v-for='variant in variants' :key="variant.id">
-                            <p v-on:mouseover='updateProduct(variant)'>{{ variant.type }}</p>
-                        </div>
-                    </div>
-                    <p><b>En carrito:</b> {{cart}}</p>
-                    <button class="btn btn-danger" @click='addtoCart' :disabled='!inStock'>Agregar al carro</button>
-                    <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
-                </div>
-            </div>
+    <div id='app'>
+        <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+            <a class="navbar-brand" href="#">hola0048</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ cart }}</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container pt-4">
+            <product @add-to-cart="addToCart" @remove-from-cart="removeFromCart"></product>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
