@@ -26,16 +26,17 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
+                        <h5 class="modal-title">Canasta</h5>
                         <button type="button" class="close" data-dismiss="modal" @click="displayCart = false" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
                     </div>
                     <div class="modal-body">
-                        <p>Modal body text goes here.</p>
+                        <p v-if="!cart.length">No hay productos en tu carro</p>
+                        <p v-else v-for="product in cart">{{product.type}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="displayCart = false">Close</button>
+                        <button type="button" class="btn btn-warning" @click="cart=[]">Vaciar carrito</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
@@ -55,32 +56,29 @@
                 <h2>{{description}}</h2>
                 <div>
                     <b><span>{{stock}}</span>
-                       <span v-if='stock > 10'> En stock</span>
-                          <span style="color: #dc3545;" v-else-if='stock <= 10 && stock > 0'>¡Pocas unidades!</span>
-                           <span style="color: #797878;" v-else>Agotadas</span></b>
+                    <span v-if='stock > 10'> En stock</span>
+                    <span style="color: #dc3545;" v-else-if='stock <= 10 && stock > 0'>¡Pocas unidades!</span>
+                    <span style="color: #797878;" v-else>Agotadas</span></b>
                 </div>
                 <hr>
                 <h4>Características:</h4>
                 <ul>
                     <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
                 </ul>
-
                 <a :href="lnk"> Ver Detalle</a>
                 <p>Costo de Envío: {{shipping}}</p>
-
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
-                        <select class="custom-select" v-model="selectedVariant">
+                    </div>
+                    <select class="custom-select" v-model="selectedVariant">
                     <option v-for='variant in variants' :key="variant.id" :value="variant">{{variant.type}}</option>
-                </select>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger" @click='addToCart' :disabled='!inStock'>Agregar al carro</button>
-                        <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
-                    </div>
+                         </select>
                 </div>
+                <button class="btn btn-danger" @click='addToCart' :disabled='!inStock'>Agregar al carro</button>
+                <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
             </div>
+        </div>
     </script>
     <script src="main.js"></script>
     <style scoped>
