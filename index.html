@@ -14,7 +14,7 @@
             <a class="navbar-brand" href="#">hola0048</a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" @click="displayCart = true" style="color: #ffffff;" href="#">Carrito: <b>{{ cart.length }}</b></a>
+                    <a class="nav-link" style="color: white;" @click="displayCart = true" href="#">Carrito: <b>{{ cart.length }}</b></a>
                 </li>
             </ul>
         </nav>
@@ -64,19 +64,38 @@
                 <ul>
                     <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
                 </ul>
+
                 <a :href="lnk"> Ver Detalle</a>
                 <p>Costo de Envío: {{shipping}}</p>
-                <div class="d-flex mt-2"><b> Tipo de Longaniza:</b>
-                    <div class="mr-3 ml-3" v-for='variant in variants' :key="variant.id">
-                        <p v-on:mouseover='updateProduct(variant)'>{{variant.type}} </p>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
+                        <select class="custom-select" v-model="selectedVariant">
+                    <option v-for='variant in variants' :key="variant.id" :value="variant">{{variant.type}}</option>
+                </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-danger" @click='addToCart' :disabled='!inStock'>Agregar al carro</button>
+                        <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
                     </div>
                 </div>
-                <button class="btn btn-danger" @click='addToCart' :disabled='!inStock'>Agregar al carro</button>
-                <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
             </div>
-        </div>
     </script>
     <script src="main.js"></script>
+    <style scoped>
+        .white-letters {
+            color: white;
+        }
+        
+        .red-letters {
+            color: red;
+        }
+        
+        .gray-letters {
+            color: gray;
+        }
+    </style>
 </body>
 
 </html>
