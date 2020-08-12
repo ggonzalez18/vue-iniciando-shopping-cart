@@ -1,4 +1,10 @@
 Vue.component("product", {
+    props: {
+        premium: {
+            type: Boolean,
+            required: true
+        }
+    },
     data() {
         return {
             description: 'Longanizas de Chillan 100% artesanal',
@@ -23,37 +29,6 @@ Vue.component("product", {
             cart: 0
         }
     },
-    template: `<div class="row">
-    <div class="col col-lg-7">
-        <img v-bind:src="img" class="card" width="90%" />
-        <!--atributo-->
-    </div>
-    <div class="col col-lg-5">
-        <h1><b>{{ product }}</b></h1>
-        <!--contenido-->
-        <h2>{{ description }}</h2>
-        <div>
-            <b><span> {{ stock }} </span>
-            <span v-if='stock > 10'>En stock</span>
-            <span style="color: #dc3545;" v-else-if='stock <= 10 && stock > 0'>¡Pocas unidades!</span>
-            <span style="color: #797878;" v-else>Agotadas</span>
-            </b>
-        </div>
-        <hr>
-        <h4>Características:</h4>
-        <ul>
-            <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
-        </ul>
-        <a :href="lnk">Ver Detalle</a>
-        <div class="d-flex mt-2"><b>Tipo de Longaniza:</b>
-            <div class="mr-3 ml-3" v-for='variant in variants' :key="variant.id">
-                <p v-on:mouseover='updateProduct(variant)'>{{ variant.type }}</p>
-            </div>
-        </div>
-        <button class="btn btn-danger" @click='addToCart' :disabled='!inStock'>Agregar al carro</button>
-        <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
-    </div>
-</div>`,
     methods: {
         updateProduct(variant) {
             this.selectedVariant = variant;
@@ -76,17 +51,22 @@ Vue.component("product", {
         },
         stock() {
             return this.selectedVariant.stock
+        },
+        shipping() {
+            return this.premium == true ? "gratis" : "2.000"
         }
     },
     created() {
         this.selectedVariant = this.variants.find(item => item.default == true)
-    }
+    },
+    template: '#product-template',
 })
 
 var app = new Vue({
     el: '#app',
     data: {
-        cart: 0
+        cart: 0,
+        premium: false
     },
     methods: {
         addToCart(cant) {
