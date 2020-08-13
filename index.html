@@ -45,13 +45,14 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
     <script type="text/x-template" id="product-template">
         <div class="row">
-            <div class="col-sm-12 col-md-7 col-lg-7">
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 <img v-bind:src="img" class="card mb-2" width="90%" />
                 <!--atributo-->
             </div>
-            <div class="col-sm-12 col-md-7 col-lg-5">
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 <h1><b>{{product}}</b></h1>
                 <!--contenido-->
                 <h2>{{description}}</h2>
@@ -66,8 +67,6 @@
                 <ul>
                     <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
                 </ul>
-                <a :href="lnk"> Ver Detalle</a>
-                <p>Costo de Envío: {{shipping}}</p>
                 <div class="input-group mb-5">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
@@ -78,27 +77,36 @@
                 </div>
                 <button class="btn btn-danger" @click='addToCart' :disabled='!inStock'>Agregar al carro</button>
                 <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
-                <product-tabs></product-tabs>
-
+                <product-tabs :reviews="reviews" :shipping="shipping"></product-tabs>
             </div>
         </div>
     </script>
+
     <script type="text/x-template" id="tabs-template">
         <div>
             <ul class="nav nav-tabs mt-5">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                <li v-for="(tab,index) in tabs" :key="index" @click.prevent="selectedTab=tab" class="nav-item">
+                    <a class="nav-link active" href="#">{{tab}}</a>
                 </li>
             </ul>
-            <reviews-form></reviews-form>
+            <reviews-form v-show="selectedTab=='Agregar Review'"></reviews-form>
+            <review-list :reviews="reviews" v-show="selectedTab=='Ver Review'"></review-list>
+            <review-shipping :shipping="shipping" v-show="selectedTab=='Envio'"></review-shipping>
         </div>
     </script>
+
+    <script type="text/x-template" id="shipping-template">
+        <div>Costo de Envío: {{shipping}}</div>
+    </script>
+
+    <script type="text/x-template" id="list-template">
+        <div>
+            <div v-for="review in reviews"><b>Email: </b> {{review.email}} <br> <b>Comentario: </b>{{review.review}} <br> <b>Calificación: </b>{{review.rating}}
+                <hr>
+            </div>
+        </div>
+    </script>
+
     <script type="text/x-template" id="form-template">
         <div>
             <div v-if="errors.length" class="alert alert-warning alert-dismissible">
