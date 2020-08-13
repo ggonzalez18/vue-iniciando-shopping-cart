@@ -46,6 +46,15 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
+    <script type="text/x-template" id="detail-template">
+        <div>
+            <h4>Características:</h4>
+            <ul>
+                <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
+            </ul>
+        </div>
+    </script>
+
     <script type="text/x-template" id="product-template">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
@@ -62,11 +71,6 @@
                     <span style="color: #dc3545;" v-else-if='stock <= 10 && stock > 0'>¡Pocas unidades!</span>
                     <span style="color: #797878;" v-else>Agotadas</span></b>
                 </div>
-                <hr>
-                <h4>Características:</h4>
-                <ul>
-                    <li v-for='(detail,index) in details' :key="index">{{detail}}</li>
-                </ul>
                 <div class="input-group mb-5">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
@@ -77,7 +81,7 @@
                 </div>
                 <button class="btn btn-danger" @click='addToCart' :disabled='!inStock'>Agregar al carro</button>
                 <button class="btn btn-secondary" @click='deleteFromCart'>Sacar del carro</button>
-                <product-tabs :reviews="reviews" :shipping="shipping"></product-tabs>
+                <product-tabs :reviews="reviews" :shipping="shipping" :details="details"></product-tabs>
             </div>
         </div>
     </script>
@@ -92,6 +96,7 @@
             <reviews-form v-show="selectedTab=='Agregar Review'"></reviews-form>
             <review-list :reviews="reviews" v-show="selectedTab=='Ver Review'"></review-list>
             <review-shipping :shipping="shipping" v-show="selectedTab=='Envio'"></review-shipping>
+            <review-detail :details="details" v-show="selectedTab=='Detalles'"></review-detail>
         </div>
     </script>
 
@@ -141,6 +146,12 @@
             </form>
         </div>
     </script>
+    <script src="./product/index.js"></script>
+    <script src="./product/form.js"></script>
+    <script src="./product/tabs.js"></script>
+    <script src="./product/list.js"></script>
+    <script src="./product/shipping.js"></script>
+    <script src="./product/details.js"></script>
     <script src="main.js"></script>
     <style scoped>
         .white-letters {
