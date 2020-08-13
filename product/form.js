@@ -20,7 +20,7 @@ Vue.component("reviews-form", {
                 this.email = null
                 this.review = null
                 this.rating = null
-            } else { this.errors.push("ha ocurrido un error") }
+            } else { this.errors.push("ingresa los datos correctamente") }
         }
 
     }
