@@ -1,3 +1,40 @@
+Vue.component("product-tabs", {
+    template: "#tabs-template",
+    data() {
+        return {
+            tabs: []
+        }
+    }
+})
+
+Vue.component("reviews-form", {
+    template: '#form-template',
+    data() {
+        return {
+            email: null,
+            review: null,
+            rating: null,
+            errors: []
+        }
+    },
+    methods: {
+        saveReview() {
+            if (this.review && this.rating && this.email) {
+                let productReview = {
+                    email: this.email,
+                    review: this.review,
+                    rating: this.rating
+                }
+                eventBus.$emit("review-added", productReview)
+                this.email = null
+                this.review = null
+                this.rating = null
+            } else { this.errors.push("ha ocurrido un error") }
+        }
+
+    }
+})
+
 Vue.component("product", {
     props: {
         premium: {
@@ -30,6 +67,7 @@ Vue.component("product", {
                     stock: 0,
                 }
             ],
+            reviews: []
         }
     },
     methods: {
@@ -46,7 +84,7 @@ Vue.component("product", {
             if (variantInCart) {
                 this.selectedVariant.stock += 1
             }
-        }
+        },
     },
     computed: {
         inStock() {
@@ -65,8 +103,13 @@ Vue.component("product", {
     created() {
         this.selectedVariant = this.variants.find(item => item.default == true)
     },
+    mounted() {
+        eventBus.$on("review-added", review => this.reviews.push(review))
+    },
     template: '#product-template',
 })
+
+var eventBus = new Vue()
 
 var app = new Vue({
     el: '#app',
